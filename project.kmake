@@ -1,0 +1,27 @@
+#version 1.0
+#global
+compilerlauncher: ccache
+compiler: clang++
+standard: c++26
+binarytype: executable
+binaryname: MicahsVillage
+sources: "Workspace/src"
+headers: "Workspace/include", "Libraries/Raylib/include"
+customflags: export-compile-commands, export-vscode-sln, warnings-as-errors
+
+warninglevel: strict
+
+#profile L-Release
+    buildtype: release
+    buildpath: "build/L-Release"
+    links: "Libraries/Raylib/lib/libraylib.a", X11
+    
+#profile L-Debug
+    buildtype: debug
+    buildpath: "build/L-Debug"
+    links: "Libraries/Raylib/lib/libraylib.a"
+    
+
+#profile W-Release
+
+#profile W-Debug
