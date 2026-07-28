@@ -9,6 +9,8 @@ sources: "Workspace/src"
 headers: "Workspace/include", "Libraries/Raylib/include"
 customflags: export-compile-commands, export-vscode-sln, warnings-as-errors
 
+compileflags: Wno-error=missing-field-initializers
+
 warninglevel: strict
 
 #profile L-Release
