@@ -1,5 +1,7 @@
 
 #include "raylib.h"
+#include "worldData.h"
+#include "world.h"
 
 int main(void)
 {
@@ -10,6 +12,8 @@ int main(void)
 
     SetTargetFPS(60);               
     
+    Universe::World world;
+
     while (!WindowShouldClose())    
     {
         BeginDrawing();
