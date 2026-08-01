@@ -3,7 +3,7 @@
 #include "rlgl.h"
 #include "raymath.h"
 #include "world.h"
-
+#include "renderer.h"
 int main(void)
 {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
@@ -37,13 +37,10 @@ int main(void)
                 float scale = 0.2f*wheel;
                 camera.zoom = Clamp(expf(logf(camera.zoom)+scale),0.125f, 50.0f);
             }
-
-        BeginDrawing();
-            ClearBackground(RAYWHITE);
-            BeginMode2D(camera);
-                
-            EndMode2D();
-        EndDrawing();
+            BeginDrawing();
+            ClearBackground(WHITE);
+            Engine::Renderer::Render(world,camera);
+            EndDrawing();
     }
 
     CloseWindow();  

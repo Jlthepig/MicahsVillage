@@ -11,7 +11,7 @@ namespace Universe
 
             void update();
 
-            Terrain::WorldGrid& getGrid();
+            const Terrain::WorldGrid& getGrid() const;
         private:
             Terrain::WorldGrid grid;
     };

@@ -11,10 +11,10 @@ namespace Universe
             public:
             WorldGrid();
 
-            bool checkWorldBoundry(int x, int y);
-            Tile& getTile(int x, int y);
+            bool checkWorldBoundry(int x, int y) const;
+            const Tile& getTile(int x, int y) const;
             private:
-            inline size_t coordToIndex(int x, int y);
+            inline size_t coordToIndex(int x, int y) const;
             std::vector<Tile> Grid;
             static Tile errorTile;
         };

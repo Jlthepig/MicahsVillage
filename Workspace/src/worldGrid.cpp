@@ -11,12 +11,12 @@ namespace Universe
             Grid.resize(Config::TOTAL_TILES);
         }
         
-        size_t WorldGrid::coordToIndex(int x, int y)
+        size_t WorldGrid::coordToIndex(int x, int y) const 
         {
             return (static_cast<size_t>(y) * Config::MAP_WIDTH) + static_cast<size_t>(x);
         }
 
-        bool WorldGrid::checkWorldBoundry(int x, int y)
+        bool WorldGrid::checkWorldBoundry(int x, int y) const
         {
             if (x >=0 && x < Config::MAP_WIDTH && y >=0 && y < Config::MAP_HEIGHT)
             {
@@ -25,7 +25,7 @@ namespace Universe
             return false;
         }
 
-        Tile& WorldGrid::getTile(int x, int y)
+        const Tile& WorldGrid::getTile(int x, int y) const 
         {
             if (checkWorldBoundry(x, y))
             {

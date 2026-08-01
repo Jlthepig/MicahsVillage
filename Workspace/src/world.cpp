@@ -12,7 +12,7 @@ namespace Universe
 
     }
 
-    Terrain::WorldGrid& World::getGrid()
+    const Terrain::WorldGrid& World::getGrid() const
     {
         return grid;
     }
