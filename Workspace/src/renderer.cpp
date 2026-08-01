@@ -9,7 +9,7 @@ namespace Engine
 {
     void Renderer::Render([[maybe_unused]]const Universe::World &world, Camera2D camera)
     {
-        //const Universe::Terrain::WorldGrid &wg = world.getGrid();
+            const Universe::Terrain::WorldGrid &wg = world.getGrid();
         
             ClearBackground(RAYWHITE);
 
@@ -28,10 +28,20 @@ namespace Engine
                 {   
                     for (int x = startX; x < endX; x++)
                     {
-                        //Universe::Terrain::Tile tile = wg.getTile(x, y);
-                        if ((x + y) % 2 == 0) DrawRectangle(x * TILE_SIZE, y* TILE_SIZE, TILE_SIZE, TILE_SIZE, GREEN);
-                        else DrawRectangle(x * TILE_SIZE, y* TILE_SIZE, TILE_SIZE, TILE_SIZE, DARKGREEN);
+                        Universe::Terrain::Tile tile = wg.getTile(x, y);
+                        switch (tile.type)
+                        {
 
+                        case Universe::Terrain::GRASS:
+                            DrawRectangle(x * TILE_SIZE, y* TILE_SIZE, TILE_SIZE, TILE_SIZE, GREEN);
+                            break;
+                        case Universe::Terrain::WATER:
+                            DrawRectangle(x * TILE_SIZE, y* TILE_SIZE, TILE_SIZE, TILE_SIZE, BLUE);
+                            break;
+                        case Universe::Terrain::SAND:
+                            DrawRectangle(x * TILE_SIZE, y* TILE_SIZE, TILE_SIZE, TILE_SIZE, BEIGE);
+                            break;
+                        }
                     }
                 }
             EndMode2D();

@@ -27,20 +27,24 @@ int main(void)
             delta = Vector2Scale(delta, -1.0f/camera.zoom);
             camera.target = Vector2Add(camera.target, delta);
         }
-            Vector2 mouseWorldPos = GetScreenToWorld2D(GetMousePosition(), camera);
-            float wheel = GetMouseWheelMove();
-            if (wheel != 0)
-            {
-                camera.offset = GetMousePosition();
-                camera.target = mouseWorldPos;
 
-                float scale = 0.2f*wheel;
-                camera.zoom = Clamp(expf(logf(camera.zoom)+scale),0.125f, 50.0f);
-            }
-            BeginDrawing();
+        Vector2 mouseWorldPos = GetScreenToWorld2D(GetMousePosition(), camera);
+        float wheel = GetMouseWheelMove();
+        if (wheel != 0)
+        {
+            camera.offset = GetMousePosition();
+            camera.target = mouseWorldPos;
+
+            float scale = 0.2f*wheel;
+            camera.zoom = Clamp(expf(logf(camera.zoom)+scale),0.125f, 50.0f);
+        }
+        
+        BeginDrawing();
+
             ClearBackground(WHITE);
             Engine::Renderer::Render(world,camera);
-            EndDrawing();
+            
+        EndDrawing();
     }
 
     CloseWindow();  
