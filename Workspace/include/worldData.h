@@ -6,8 +6,8 @@ namespace Universe
     {
         namespace Config
         {
-            constexpr int MAP_WIDTH = 100;
-            constexpr int MAP_HEIGHT = 100;
+            constexpr int MAP_WIDTH = 64;
+            constexpr int MAP_HEIGHT = 64;
             constexpr int TILE_SIZE = 32;
             constexpr int CELL_SIZE = 16;
             constexpr int TOTAL_TILES = MAP_WIDTH * MAP_HEIGHT;

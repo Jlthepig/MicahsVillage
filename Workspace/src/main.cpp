@@ -4,6 +4,9 @@
 #include "raymath.h"
 #include "world.h"
 #include "renderer.h"
+
+using namespace Universe::Terrain;
+
 int main(void)
 {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
@@ -26,6 +29,8 @@ int main(void)
             Vector2 delta = GetMouseDelta();
             delta = Vector2Scale(delta, -1.0f/camera.zoom);
             camera.target = Vector2Add(camera.target, delta);
+            camera.target.x = Clamp(camera.target.x, 0.0, Config::MAP_WIDTH * Config::TILE_SIZE + 10.0f);
+            camera.target.y = Clamp(camera.target.y, 0.0, Config::MAP_HEIGHT * Config::TILE_SIZE + 10.0f);
         }
 
         Vector2 mouseWorldPos = GetScreenToWorld2D(GetMousePosition(), camera);
@@ -36,7 +41,7 @@ int main(void)
             camera.target = mouseWorldPos;
 
             float scale = 0.2f*wheel;
-            camera.zoom = Clamp(expf(logf(camera.zoom)+scale),0.125f, 50.0f);
+            camera.zoom = Clamp(expf(logf(camera.zoom)+scale),0.1f, 50.0f);
         }
         
         BeginDrawing();

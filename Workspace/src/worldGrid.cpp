@@ -32,8 +32,8 @@ namespace Universe
                     }
                     else
                     {
-                        if (values[index] < 0.3f) Grid[index].type = WATER;
-                        else if (values[index] < 0.4f) Grid[index].type = SAND;
+                        if (values[index] < 0.2f) Grid[index].type = WATER;
+                        else if (values[index] < 0.3f) Grid[index].type = SAND;
                         else Grid[index].type = GRASS;
                     }
                 }
