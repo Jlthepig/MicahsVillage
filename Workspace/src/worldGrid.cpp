@@ -1,14 +1,12 @@
 #include "worldGrid.h"
-#include "raylib.h"
-#include "raymath.h"
+#include <cassert>
 #include <span>
+#include <stdexcept>
 
 namespace Universe
 {
     namespace Terrain
     {
-        Tile WorldGrid::errorTile = { TileType::WATER, -1 }; 
-
         WorldGrid::WorldGrid()
         {
             Grid.resize(Config::TOTAL_TILES);
@@ -122,7 +120,10 @@ namespace Universe
                 size_t index = coordToIndex(x,y);
                 return Grid[index];
             } 
-            return errorTile;
+            else
+            {
+                throw std::out_of_range("WorldGrid::getTile() called with out-of-bounds coordinates");
+            }
         }
     }
     

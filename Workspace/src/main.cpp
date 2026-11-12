@@ -45,8 +45,6 @@ int main(void)
         }
         
         BeginDrawing();
-
-            ClearBackground(WHITE);
             Engine::Renderer::Render(world,camera);
             
         EndDrawing();

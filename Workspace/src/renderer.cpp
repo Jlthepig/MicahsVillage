@@ -1,45 +1,48 @@
-#include "renderer.h"
-#include "worldData.h"
-#include "math.h"
+#include <algorithm>
+#include <cmath>
+
 #include "raylib.h"
 
-using Universe::Terrain::Config::TILE_SIZE;
+#include "renderer.h"
+#include "worldData.h"
 
+
+using namespace Universe::Terrain;
 namespace Engine
 {
-    void Renderer::Render([[maybe_unused]]const Universe::World &world, Camera2D camera)
+    void Renderer::Render(const Universe::World &world, const Camera2D &camera)
     {
             const Universe::Terrain::WorldGrid &wg = world.getGrid();
         
             ClearBackground(RAYWHITE);
 
-            Vector2 screenTopLeft = {0,0};
-            Vector2 screenBottomRight = {(float)GetScreenWidth(),(float)GetScreenHeight()};
-            Vector2 worldTopLeft = GetScreenToWorld2D(screenTopLeft, camera);
-            Vector2 worldBottomRight = GetScreenToWorld2D(screenBottomRight, camera);
-
-            int startX = static_cast<int>(floor(worldTopLeft.x/TILE_SIZE));
-            int startY = static_cast<int>(floor(worldTopLeft.y/TILE_SIZE));
-            int endX = static_cast<int>(ceil(worldBottomRight.x/TILE_SIZE));
-            int endY = static_cast<int>(ceil(worldBottomRight.y/TILE_SIZE));
-
             BeginMode2D(camera);
+                const Vector2 viewMin = GetScreenToWorld2D({0.0f, 0.0f}, camera);
+                const Vector2 viewMax = GetScreenToWorld2D({static_cast<float>(GetScreenWidth()), static_cast<float>(GetScreenHeight())}, camera);
+
+                DrawRectangleV(viewMin, {viewMax.x - viewMin.x, viewMax.y - viewMin.y}, BLUE);
+
+                const int startX = std::max(0, static_cast<int>(std::floor(viewMin.x / Config::TILE_SIZE)));
+                const int startY = std::max(0, static_cast<int>(std::floor(viewMin.y / Config::TILE_SIZE)));
+                const int endX = std::min(Config::MAP_WIDTH, static_cast<int>(viewMax.x / Config::TILE_SIZE));
+                const int endY = std::min(Config::MAP_HEIGHT, static_cast<int>(viewMax.y / Config::TILE_SIZE));
+
                 for (int y = startY; y < endY; y++)
                 {   
                     for (int x = startX; x < endX; x++)
                     {
-                        Universe::Terrain::Tile tile = wg.getTile(x, y);
+                       const Universe::Terrain::Tile &tile = wg.getTile(x, y);
                         switch (tile.type)
                         {
 
                         case Universe::Terrain::GRASS:
-                            DrawRectangle(x * TILE_SIZE, y* TILE_SIZE, TILE_SIZE, TILE_SIZE, GREEN);
+                            DrawRectangle(x * Config::TILE_SIZE, y* Config::TILE_SIZE, Config::TILE_SIZE, Config::TILE_SIZE, GREEN);
                             break;
                         case Universe::Terrain::WATER:
-                            DrawRectangle(x * TILE_SIZE, y* TILE_SIZE, TILE_SIZE, TILE_SIZE, BLUE);
+                            DrawRectangle(x * Config::TILE_SIZE, y* Config::TILE_SIZE, Config::TILE_SIZE, Config::TILE_SIZE, BLUE);
                             break;
                         case Universe::Terrain::SAND:
-                            DrawRectangle(x * TILE_SIZE, y* TILE_SIZE, TILE_SIZE, TILE_SIZE, BEIGE);
+                            DrawRectangle(x * Config::TILE_SIZE, y* Config::TILE_SIZE, Config::TILE_SIZE, Config::TILE_SIZE, BEIGE);
                             break;
                         }
                     }

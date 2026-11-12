@@ -1,3 +1,4 @@
+#pragma once
 
 #include "worldData.h"
 #include <span>

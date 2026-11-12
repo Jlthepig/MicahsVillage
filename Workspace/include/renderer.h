@@ -9,7 +9,7 @@ namespace Engine
         public:
 
         static void init();
-        static void Render(const Universe::World &world, Camera2D camera);
+        static void Render(const Universe::World &world, const Camera2D &camera);
 
         private:
     };
