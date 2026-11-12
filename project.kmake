@@ -1,29 +1,43 @@
-#version 1.0
+#version 2.0
 #global
-compilerlauncher: ccache
-compiler: clang++
-standard: c++26
-binarytype: executable
-binaryname: MicahsVillage
+standard: "c++26"
+binarytype: "executable"
+binaryname: "MicahsVillage"
 sources: "Workspace/src"
 headers: "Workspace/include", "Libraries/Raylib/include"
-customflags: export-compile-commands, export-vscode-sln, warnings-as-errors
+customflags: "export-compile-commands", "export-vscode-sln", "warnings-as-errors"
 
-compileflags: Wno-error=missing-field-initializers
+compileflags: "Wno-error=missing-field-initializers"
 
-warninglevel: strict
+warninglevel: "strict"
 
-#profile L-Release
-    buildtype: release
+#profile Linux-Release
+    compilerlauncher: "ccache"
+    compiler: "clang++"
+    buildtype: "release"
     buildpath: "build/L-Release"
-    links: "Libraries/Raylib/lib/libraylib.a", X11
-    
-#profile L-Debug
-    buildtype: debug
+    links: "Libraries/Raylib/lib/libraylib.a", "X11"
+
+#profile Linux-Debug
+    compilerlauncher: "ccache"
+    compiler: "clang++"
+    buildtype: "debug"
     buildpath: "build/L-Debug"
     links: "Libraries/Raylib/lib/libraylib.a"
-    
 
-#profile W-Release
+#profile Windows-Release
+    compiler: "clang++"
+    targettype: "windows-gnu"
+    buildtype: "release"
+    buildpath: "build/W-Release"
+    compileflags: "Wno-unused-command-line-argument"
+    links: "Libraries/Raylib/lib/libraylib-win64.a", "opengl32", "gdi32", "winmm"
 
-#profile W-Debug
+#profile Windows-Debug
+    compiler: "clang++"
+    targettype: "windows-gnu"
+    buildtype: "debug"
+    buildpath: "build/W-Debug"
+    compileflags: "Wno-unused-command-line-argument"
+    linkflags: "fuse-ld=lld", "Wl,--pdb="
+    links: "Libraries/Raylib/lib/libraylib-win64.a", "opengl32", "gdi32", "winmm"
