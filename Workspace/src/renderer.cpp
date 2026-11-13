@@ -13,8 +13,6 @@ namespace Engine
     void Renderer::Render(const Universe::World &world, const Camera2D &camera)
     {
             const Universe::Terrain::WorldGrid &wg = world.getGrid();
-        
-            ClearBackground(RAYWHITE);
 
             BeginMode2D(camera);
                 const Vector2 viewMin = GetScreenToWorld2D({0.0f, 0.0f}, camera);
@@ -24,8 +22,8 @@ namespace Engine
 
                 const int startX = std::max(0, static_cast<int>(std::floor(viewMin.x / Config::TILE_SIZE)));
                 const int startY = std::max(0, static_cast<int>(std::floor(viewMin.y / Config::TILE_SIZE)));
-                const int endX = std::min(Config::MAP_WIDTH, static_cast<int>(viewMax.x / Config::TILE_SIZE));
-                const int endY = std::min(Config::MAP_HEIGHT, static_cast<int>(viewMax.y / Config::TILE_SIZE));
+                const int endX = std::min(Config::MAP_WIDTH, static_cast<int>(std::ceil(viewMax.x / Config::TILE_SIZE)));
+                const int endY = std::min(Config::MAP_HEIGHT, static_cast<int>(std::ceil(viewMax.y / Config::TILE_SIZE)));
 
                 for (int y = startY; y < endY; y++)
                 {   
@@ -35,13 +33,13 @@ namespace Engine
                         switch (tile.type)
                         {
 
-                        case Universe::Terrain::GRASS:
+                        case GRASS:
                             DrawRectangle(x * Config::TILE_SIZE, y* Config::TILE_SIZE, Config::TILE_SIZE, Config::TILE_SIZE, GREEN);
                             break;
-                        case Universe::Terrain::WATER:
+                        case WATER:
                             DrawRectangle(x * Config::TILE_SIZE, y* Config::TILE_SIZE, Config::TILE_SIZE, Config::TILE_SIZE, BLUE);
                             break;
-                        case Universe::Terrain::SAND:
+                        case SAND:
                             DrawRectangle(x * Config::TILE_SIZE, y* Config::TILE_SIZE, Config::TILE_SIZE, Config::TILE_SIZE, BEIGE);
                             break;
                         }

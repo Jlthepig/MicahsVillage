@@ -1,8 +1,6 @@
 #include "worldGrid.h"
 #include <cassert>
 #include <span>
-#include <stdexcept>
-
 namespace Universe
 {
     namespace Terrain
@@ -88,23 +86,23 @@ namespace Universe
 
         }
 
-        float WorldGrid::next_float(unsigned long& state)
+        inline float WorldGrid::next_float(unsigned long& state)
         {
             state = (1103515245 * state + 12345) % 2147483648;
             return (float)state / 2147483648.0f;
         }
 
-        float WorldGrid::interpolateSmoothNoise(float t)
+        inline float WorldGrid::interpolateSmoothNoise(float t)
         {
             return t*t*(3-2*t);
         }
         
-        size_t WorldGrid::coordToIndex(int x, int y) const 
+        inline size_t WorldGrid::coordToIndex(int x, int y) const 
         {
             return (static_cast<size_t>(y) * Config::MAP_WIDTH) + static_cast<size_t>(x);
         }
 
-        bool WorldGrid::checkWorldBoundry(int x, int y) const
+        constexpr bool WorldGrid::checkWorldBoundary(int x, int y) const
         {
             if (x >=0 && x < Config::MAP_WIDTH && y >=0 && y < Config::MAP_HEIGHT)
             {
@@ -113,17 +111,10 @@ namespace Universe
             return false;
         }
 
-        const Tile& WorldGrid::getTile(int x, int y) const 
+        const Tile& WorldGrid::getTile(int x, int y) const
         {
-            if (checkWorldBoundry(x, y))
-            {
-                size_t index = coordToIndex(x,y);
-                return Grid[index];
-            } 
-            else
-            {
-                throw std::out_of_range("WorldGrid::getTile() called with out-of-bounds coordinates");
-            }
+            assert(checkWorldBoundary(x, y) && "WorldGrid::getTile: coordinates out of bounds");
+            return Grid[coordToIndex(x, y)];
         }
     }
     

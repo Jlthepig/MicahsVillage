@@ -13,15 +13,25 @@ namespace Universe
             constexpr int TOTAL_TILES = MAP_WIDTH * MAP_HEIGHT;
         }
 
+        struct ItemHandle
+        {
+            uint32_t index = 0;
+            uint32_t generation = 0;
+
+            friend bool operator==(ItemHandle, ItemHandle) = default;
+            [[nodiscard]] bool valid() const noexcept { return generation !=0; }
+
+        };
+
         enum TileType: uint8_t
         {
-            GRASS, WATER, SAND
+            GRASS = 0, WATER = 0, SAND = 0
         };
 
         struct Tile
         {
             TileType type = TileType::GRASS;
-            int32_t itemIndex = -1;
+            ItemHandle item;
         };
     }
 }
